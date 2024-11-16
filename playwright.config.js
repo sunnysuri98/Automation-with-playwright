@@ -12,7 +12,7 @@ const { defineConfig, devices } = require("@playwright/test");
  */
 module.exports = defineConfig({
   // globalSetup:"./global_setup.js",
-  testDir: "./hack",
+  testDir: "./tests",
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
