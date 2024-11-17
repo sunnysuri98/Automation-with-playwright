@@ -12,7 +12,7 @@ const { defineConfig, devices } = require("@playwright/test");
  */
 module.exports = defineConfig({
   // globalSetup:"./global_setup.js",
-  testDir: "./tests",
+  testDir: "./api_tests",
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -26,6 +26,11 @@ module.exports = defineConfig({
   reporter: "html",
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
+    baseURL: "https://restful-booker.herokuapp.com",
+    extraHTTPHeaders: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
     /* Base URL to use in actions like `await page.goto('/')`. */
     // baseURL: 'http://127.0.0.1:3000',
 
@@ -42,11 +47,11 @@ module.exports = defineConfig({
 
     // },
     {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'],
+      name: "chromium",
+      use: {
+        ...devices["Desktop Chrome"],
         viewport: { width: 1920, height: 1080 },
-       },
-      
+      },
     },
 
     // {
