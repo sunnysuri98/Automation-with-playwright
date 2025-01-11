@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-import json_data from "../testdata/api_data.json";
+import json_data from "../../testdata/api_data.json";
 
 test("verify post endpoint", async ({ request }) => {
   const resp = await request.post("/booking", {

@@ -1,12 +1,20 @@
 import { test, expect } from "@playwright/test";
+let page;
 
-test.skip("Handling alert", async ({ page }) => {
+test.beforeEach(async ({browser})=>{
+  const context = await browser.newContext();
+  page = await context.newPage();
   await page.goto("https://the-internet.herokuapp.com/javascript_alerts");
+  await page.waitForLoadState('networkidle');
+})
 
-  page.on("dialog", async (dialogWindow) => {
-    expect(dialogWindow.message()).toContain("I am a JS Alert");
+test("Handling alert", async () => {
 
-    await dialogWindow.accept();
+
+  page.on("dialog", async (dialog) => {
+    expect(dialog.message()).toContain("I am a JS Alert");
+
+    await dialog.accept();
   });
 
   await page
@@ -16,13 +24,12 @@ test.skip("Handling alert", async ({ page }) => {
   await page.waitForTimeout(2000);
 });
 
-test("Handling confirm", async ({ page }) => {
-  await page.goto("https://the-internet.herokuapp.com/javascript_alerts");
+test("Handling confirm", async () => {
 
-  page.on("dialog", async (dialogWindow) => {
-    expect(dialogWindow.message()).toContain("I am a JS Confirm");
+  page.on("dialog", async (dialog) => {
+    expect(dialog.message()).toContain("I am a JS Confirm");
 
-    await dialogWindow.dismiss();
+    await dialog.dismiss();
   });
 
   await page
@@ -32,20 +39,19 @@ test("Handling confirm", async ({ page }) => {
   await page.waitForTimeout(2000);
 });
 
-test("Handling prompt", async ({ page }) => {
-  await page.goto("https://the-internet.herokuapp.com/javascript_alerts");
+test("Handling prompt", async () => {
 
-  page.on("dialog", async (dialogWindow) => {
-    expect(dialogWindow.message()).toContain("I am a JS prompt");
+  page.on("dialog", async (dialog) => {
+    expect(dialog.message()).toContain("I am a JS prompt");
 
-    await dialogWindow.accept("hackone");
+    await dialog.accept("hackone");
   });
 
   await page
     .locator("//button[normalize-space()='Click for JS Prompt']")
     .click();
 
-  // await page.waitForTimeout(2000);
+  await page.waitForTimeout(2000);
 
   
 });
