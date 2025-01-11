@@ -8,6 +8,10 @@ test.beforeEach(async ({browser})=>{
   await page.waitForLoadState('networkidle');
 })
 
+test.afterEach(async () => {
+  await page.close(); 
+});
+
 test("Handling alert", async () => {
 
 
