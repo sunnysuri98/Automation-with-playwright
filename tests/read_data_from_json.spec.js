@@ -1,39 +1,27 @@
 import { test, expect } from "@playwright/test";
 
-import login_D from "../testdata/login_data.json";
 import dataArr from "../testdata/data.json";
 
-test.beforeEach("Login Test", async ({ page }) => {
-  await page.goto("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
 
-  await page.fill("//input[@placeholder='Username']", login_D.username);
-  await page.fill("//input[@placeholder='Password']", login_D.password);
+for (let data of dataArr){
+  test(`Testing for ${data.email}`,async({page})=>{
 
-  await page.getByRole("button", { name: "Login" }).click();
+    await page.goto("https://freelance-learn-automation.vercel.app/login")
 
-  await page.waitForURL("https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index");
-});
+    await page.getByPlaceholder("Enter Email").fill(data.email);
+    await page.getByPlaceholder("Enter Password").fill(data.password);
+
+    await page.getByRole("button",{name:"Sign in"}).click();
+
+    if (data.email === "admin@email.com" && data.password === "admin@123") {
+      await expect(page.locator(".cartBtn")).toBeVisible();
+  } else {
+      await expect(page.locator(".errorMessage")).toBeVisible();
+  }
 
 
-for (const d of dataArr) {
-  test(`Add candidate for recruitment - ${d.firstName}`, async ({ page }) => {
-    await page
-      .locator("//aside[@class='oxd-sidepanel']/descendant::a//span[text()='Recruitment']")
-      .click();
-
-    await page.getByRole("button", { name: "Add" }).click();
-
-    await page.getByPlaceholder("First Name").fill(d.firstName);
-    await page.getByPlaceholder("Middle Name").fill(d.middleName);
-    await page.getByPlaceholder("Last Name").fill(d.lastName);
-
-    await page.fill(
-      "//label[.='Email']/ancestor::div[@class='oxd-grid-item oxd-grid-item--gutters']//input[@placeholder='Type here']",
-      d.email
-    );
-
-    await page.locator("//button[@type='submit'][.=' Save ']").click();
-
-    await expect(page.getByRole("heading", { name: "Application Stage" })).toBeVisible();
-  });
+  })
 }
+
+
+

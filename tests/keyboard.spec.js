@@ -31,7 +31,7 @@ test("Keyboard event in playwright", async ({ page }) => {
     "//form[@role='search']/descendant::textarea[@title='Search']"
   );
 
-  await page.keyboard.type("Donald Trump!");
+  await page.keyboard.type("Donald Trump!",{delay:200});
 
   await page.keyboard.press("Control+A");
 
@@ -39,7 +39,7 @@ test("Keyboard event in playwright", async ({ page }) => {
 
   await page.keyboard.press("Enter");
 
-  for (let i=0;i<5;i++){
+  for (let i=0;i<2;i++){
     await page.keyboard.press("ArrowDown")
   }
 
