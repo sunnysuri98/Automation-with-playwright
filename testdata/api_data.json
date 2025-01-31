@@ -1,24 +1,8 @@
 {
-    "postcalldata": {
-        "firstname": "Chris",
-        "lastname": "Suri",
-        "totalprice": 5000,
-        "depositpaid": false,
-        "bookingdates": {
-            "checkin": "2024-11-16",
-            "checkout": "2025-01-20"
-        },
-        "additionalneeds": "Breakfast"
-    },
     "putcalldata": {
-        "firstname": "Karan",
-        "lastname": "Suri",
-        "totalprice": 5000,
-        "depositpaid": true,
-        "bookingdates": {
-            "checkin": "2024-11-16",
-            "checkout": "2025-01-20"
-        },
-        "additionalneeds": "Breakfast"
+        "name": "Chris Martin",
+        "email": "Chris.Martin@gmail.com",
+        "gender": "male",
+        "status": "active"
     }
 }
