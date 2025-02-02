@@ -1,23 +1,29 @@
-// import {chromium } from "@playwright/test";
-
-// async function global_setup() {
-//   const browser = await chromium.launch();
-//   const context = await browser.newContext();
-//   const page = await context.newPage();
-
-//   await page.goto("https://opensource-demo.orangehrmlive.com/");
-
-//   await page.getByPlaceholder("Username").fill("Admin");
-//   await page.getByPlaceholder("Password").fill("admin123");
-
-//   await page.getByRole("button", { name: "Login" }).click();
-
-//   await page.waitForURL(
-//     "https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index"
-//   );
-
-//   await page.context().storageState({ path: "./play/.auth/auth.json" });
-// }
+import { expect, chromium } from '@playwright/test';
 
 
-// export default global_setup;
+async function globalSetup() {
+
+  let browser = await chromium.launch();
+  let context = await browser.newContext();
+  let page = await context.newPage();
+
+  await page.goto("https://www.demoblaze.com/index.html");
+
+  await page.locator("#login2").click();
+
+  await page.locator("#loginusername").fill("admin");
+  await page.locator("#loginpassword").fill("admin");
+
+  await page.locator("//button[normalize-space()='Log in']").click();
+
+  await page.waitForSelector("#logout2", { state: 'visible' });
+
+  await expect(page.locator("#logout2")).toBeVisible();
+
+  await page.context().storageState({path:"./imp/auth.json"})
+
+  await browser.close();
+
+}
+
+export default globalSetup;

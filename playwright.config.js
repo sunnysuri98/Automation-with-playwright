@@ -12,7 +12,7 @@ require('dotenv').config();
  * @see https://playwright.dev/docs/test-configuration
  */
 module.exports = defineConfig({
-  // globalSetup:"./global_setup.js",
+  // globalSetup:"./global_setup",
   testDir: "./tests",
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -28,8 +28,8 @@ module.exports = defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     baseURL: "https://gorest.co.in/public/v2/users/",
-    extraHTTPHeaders:{
-      'authorization':`Bearer ${process.env.TOKEN}`
+    extraHTTPHeaders: {
+      'authorization': `Bearer ${process.env.TOKEN}`
     },
 
     /* Base URL to use in actions like `await page.goto('/')`. */
@@ -37,16 +37,11 @@ module.exports = defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "retain-on-failure",
-    // storageState:"./play/.auth/auth.json",
+    storageState:"./imp/auth.json",
   },
 
   /* Configure projects for major browsers */
   projects: [
-    // {
-    //   name:"setup",
-    //   testMatch:"global.setup.js"
-
-    // },
     {
       name: "chromium",
       use: {
@@ -60,8 +55,6 @@ module.exports = defineConfig({
     //   // dependencies:["setup"],
     //   use: {
     //     ...devices["Desktop Firefox"],
-    //     viewport: { width: 1920, height: 1080 },
-    //     // storageState:"./imp/.auth/auth.json"
     //   },
     // },
 
@@ -75,7 +68,7 @@ module.exports = defineConfig({
     //   name: 'Mobile Chrome',
     //   use: { ...devices['Pixel 5'],
     //    },
-      
+
     // },
     // {
     //   name: 'Mobile Safari',
@@ -85,7 +78,7 @@ module.exports = defineConfig({
     /* Test against branded browsers. */
     // {
     //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
+    //   use: { ...devices['Desktop Edge'], channel: 'msedge',viewport: { width: 1920, height: 1080 }, },
     // },
     // {
     // name: "Google Chrome",
@@ -93,11 +86,6 @@ module.exports = defineConfig({
     // use: {
     // ...devices["Desktop Chrome"],
     // channel: "chrome",
-    // viewport: { width: 1920, height: 1080 },
-    // screenshot: "only-on-failure",
-    // trace: "on",
-    // video: "retain-on-failure",
-    // storageState:"./imp/.auth/auth.json",
 
     // },
     // },

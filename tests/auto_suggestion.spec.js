@@ -1,13 +1,14 @@
 import { test, expect } from "@playwright/test";
 
 test("Autosuggestion", async ({ page }) => {
-  await page.goto("https://www.amazon.in/");
+  await page.goto("https://www.google.com/");
 
-  await page.locator("//input[@placeholder='Search Amazon.in']").fill("iphone");
+  await page.locator("//textarea[@title='Search']").fill("hack");
 
-  await page.waitForSelector("//div[@class='left-pane-results-container']");
 
-    const elements=  await page.$$("//div[@class='left-pane-results-container']//div[@role='row']")
+  await page.waitForSelector("//div[@class='erkvQe']");
+
+    const elements=  await page.$$("//ul[@role='listbox']//li")
   
 
   //   for (let i = 0; i < elements.length; i++) {
@@ -19,7 +20,7 @@ test("Autosuggestion", async ({ page }) => {
   //   }
 
     for (const element of elements) {
-      if ((await element.textContent()).includes("15pro max")) {
+      if ((await element.textContent()).includes("typer")) {
         await element.click();
         break;
       }
