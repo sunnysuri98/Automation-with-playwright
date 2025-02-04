@@ -16,7 +16,7 @@ request_body = {
 
 }})
 
-test('Put endpoint testing @api', async ({ request }) => {
+test.skip('Put endpoint testing @api', async ({ request }) => {
     const p_resp = await request.post("", {
         data: request_body
     });

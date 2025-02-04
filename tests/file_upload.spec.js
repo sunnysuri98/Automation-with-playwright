@@ -9,7 +9,7 @@ test("verify file upload", async ({ page }) => {
     .setInputFiles(path.join("/home/sunny/Downloads/", "Mega.png"));
 
   await page.locator('//input[@id="file-submit"]').click();
-  
+
 
   await expect(
     // page.locator('//h3[normalize-space()="File Uploaded!"]')).toBeVisible();
@@ -18,10 +18,10 @@ test("verify file upload", async ({ page }) => {
 });
 
 
-test.only("Upload files for non-input element and assert",async ({page})=>{
+test("Upload files for non-input element and assert", async ({ page }) => {
   await page.goto("https://www.fotor.com/features/background-remover/upload");
 
-  
+
   const [fileChooser] = await Promise.all([
     page.waitForEvent("filechooser"),
 
@@ -30,7 +30,7 @@ test.only("Upload files for non-input element and assert",async ({page})=>{
 
   await fileChooser.setFiles(["/home/sunny/Downloads/vishnuji.jpg"])
   await page.waitForLoadState("networkidle");
- 
+
 
   await page.waitForTimeout(5000);
 })

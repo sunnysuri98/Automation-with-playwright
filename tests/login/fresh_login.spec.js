@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test("Handling LOgin", async ({ page,context }) => {
+test("Handling Login", async ({ page,context }) => {
 
     await context.clearCookies();
 

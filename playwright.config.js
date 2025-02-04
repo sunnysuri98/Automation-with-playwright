@@ -42,13 +42,13 @@ module.exports = defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
-    {
-      name: "chromium",
-      use: {
-        ...devices["Desktop Chrome"],
-        viewport: { width: 1920, height: 1080 },
-      },
-    },
+    // {
+    //   name: "chromium",
+    //   use: {
+    //     ...devices["Desktop Chrome"],
+    //     viewport: { width: 1920, height: 1080 },
+    //   },
+    // },
 
     // {
     //   name: "firefox",
@@ -76,10 +76,10 @@ module.exports = defineConfig({
     // },
 
     /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge',viewport: { width: 1920, height: 1080 }, },
-    // },
+    {
+      name: 'Microsoft Edge',
+      use: { ...devices['Desktop Edge'], channel: 'msedge',viewport: { width: 1920, height: 1080 }, },
+    },
     // {
     // name: "Google Chrome",
     // dependencies:["setup"],
