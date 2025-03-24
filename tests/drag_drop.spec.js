@@ -1,13 +1,5 @@
 import { test, expect } from "@playwright/test";
 
-// test("test", async () => {
-//   const browser = await webkit.launch();
-//   const page = await browser.newPage();
-
-//   await page.goto("https://www.google.com");
-
-//   await expect(page).toHaveTitle("Google");
-// });
 
 test("handling drag and drop", async ({ page }) => {
   await page.goto("https://testautomationpractice.blogspot.com/");

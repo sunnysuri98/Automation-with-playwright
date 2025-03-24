@@ -1,9 +1,14 @@
 import { test, expect } from "@playwright/test";
 
+
+test.beforeEach(async ({page})=>{
+  await page.goto("https://freelance-learn-automation.vercel.app/signup");
+  await page.waitForLoadState("load");
+})
+
 test("Verify user is able to select values from drop-down", async ({
   page,
 }) => {
-  await page.goto("https://freelance-learn-automation.vercel.app/signup");
 
   /*
 label
@@ -27,8 +32,6 @@ index
 test("verify user is able to select multiple values under drop-down", async ({
   page,
 }) => {
-  await page.goto("https://freelance-learn-automation.vercel.app/signup");
-
   await page
     .locator('//select[@id="hobbies"]')
     .selectOption(["Reading", "Swimming"]);

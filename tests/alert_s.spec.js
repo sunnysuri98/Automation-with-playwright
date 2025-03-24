@@ -23,7 +23,7 @@ test("Handling alert", async () => {
 
     expect(dialog.message()).toContain("I am a JS Alert")
 
-    dialog.accept();
+    await dialog.accept();
   })
 
   await page.getByRole("button", { name: "Click for JS Alert" }).click();
@@ -41,7 +41,8 @@ test("Handling confirm", async () => {
 
   })
 
-  await page.getByRole("button", { name: "Click for JS Confirm" }).click()
+  await page.getByRole("button", { name: "Click for JS Confirm" }).click();
+
   await expect(page.locator("//p[@id='result']")).toHaveText("You clicked: Cancel")
 })
 

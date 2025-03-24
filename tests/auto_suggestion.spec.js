@@ -25,11 +25,4 @@ test("Autosuggestion", async ({ page }) => {
         break;
       }
     }
-
-  // for (const key in elements) {
-  //   if ((await elements[key].textContent()).includes("earphones wire")) {
-  //     await elements[key].click();
-  //     break;
-  //   }
-  // }
 });
