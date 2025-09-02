@@ -1,43 +1,57 @@
 import { test, expect } from "@playwright/test";
 
-async function get_all_links(page) {
-  const all_anchor_tags = await page.$$("a");
-  const hrefs = await Promise.all(
-    all_anchor_tags.map((link) => link.getAttribute("href"))
+async function getAllLinks(page) {
+  const hrefs = await page.$$eval("a", (anchors) =>
+    anchors
+      .map((a) => a.getAttribute("href"))
+      .filter(
+        (href) =>
+          href && (href.startsWith("http://") || href.startsWith("https://"))
+      )
   );
-
-  const valid_hrefs = hrefs.reduce((acc, href) => {
-    if (href && href.startsWith("https")) {
-      acc.add(href);
-    }
-    return acc;
-  }, new Set());
-
-  return Array.from(valid_hrefs);
+  return Array.from(new Set(hrefs));
 }
 
-test("Broken Links Checker", async ({ page }) => {
-  await page.goto(
-    "https://ecommerce-playground.lambdatest.io/index.php?route=common/home"
+test("Broken Links Checker ", async ({ browser }) => {
+  const context = await browser.newContext();
+  const page = await context.newPage();
+
+  await page.goto("https://www.Google.com/", {
+    waitUntil: "domcontentloaded",
+  });
+
+  const links = await getAllLinks(page);
+  console.log(`Found ${links.length} unique links`);
+
+  const failedLinks = [];
+
+  await Promise.allSettled(
+    links.map(async (link) => {
+      const newPage = await context.newPage();
+      try {
+        const response = await newPage.goto(link, {
+          waitUntil: "domcontentloaded",
+          timeout: 30000,
+        });
+        const status = response?.status();
+
+        if (!status || status >= 400) {
+          failedLinks.push({ link, status });
+          expect
+            .soft(false, `${link} failed with status ${status}`)
+            .toBeTruthy();
+        } else {
+          expect.soft(true, `${link} is working (${status})`).toBeTruthy();
+        }
+      } catch (err) {
+        failedLinks.push({ link, error: err.message });
+        console.error(`Error checking ${link}:`, err.message);
+      } finally {
+        await newPage.close();
+      }
+    })
   );
 
-  const links = await get_all_links(page);
-
-  let failed_links = [];
-
-  for (const link of links) {
-    try {
-      const resp = await page.request.get(link);
-      if (!resp.ok()) {
-        expect.soft(false, `${link} is not working fine`).toBeTruthy();
-        failed_links.push(link);
-      } else {
-        expect.soft(true, `${link} is working fine`).toBeTruthy();
-      }
-    } catch (error) {
-      console.log(`Error checking ${link}`, error);
-    }
-  }
-
-  console.log("Failed Links: ", failed_links);
+  console.log("\nFailed Links:", failedLinks);
+  expect(failedLinks.length, "Some links failed").toBe(0);
 });

@@ -1,12 +1,13 @@
 // @ts-check
 const { defineConfig, devices } = require("@playwright/test");
-require('dotenv').config();
+const dotenv = require("dotenv");
+const path = require("path");
 
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
-// dotenv.config({ path: path.resolve(__dirname, '.env') });
+dotenv.config({ path: path.resolve(__dirname, ".env") });
 
 /**
  * @see https://playwright.dev/docs/test-configuration
@@ -14,6 +15,8 @@ require('dotenv').config();
 module.exports = defineConfig({
   // globalSetup:"./global_setup",
   testDir: "./tests",
+  timeout: 20 * 1000,
+  expect: { timeout: 5000 },
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -24,12 +27,12 @@ module.exports = defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : 5,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: "html",
+  reporter: [["html", { open: "never",outputDir:"tests-report" }], ["list"]],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     baseURL: "https://gorest.co.in/public/v2/users/",
     extraHTTPHeaders: {
-      'authorization': `Bearer ${process.env.TOKEN}`
+      authorization: `Bearer ${process.env.TOKEN}`,
     },
 
     /* Base URL to use in actions like `await page.goto('/')`. */
@@ -37,7 +40,7 @@ module.exports = defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "retain-on-failure",
-    storageState:"./imp/auth.json",
+    storageState: "./imp/auth.json",
   },
 
   /* Configure projects for major browsers */

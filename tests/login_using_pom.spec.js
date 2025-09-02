@@ -15,3 +15,11 @@ test("Verify login functionality", async ({ page }) => {
 
   await dash.logout();
 });
+
+
+/*
+Pom stands for page object model. It is a design pattern that allow us to organize
+our playwright test to improve code readability and maintability.
+
+In POM basically we take whole one application page as a class and inside that class we store locators(means web elements) and methods to interact with a web page elements   
+*/ 
